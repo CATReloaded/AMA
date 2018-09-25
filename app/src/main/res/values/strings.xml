@@ -13,4 +13,10 @@
     <string name="email">Email</string>
     <string name="already_have_an_account">Already have an account?</string>
     <string name="sign_in"><u>Sign In</u></string>
+    <string name="reset_link_message">Enter your registered email address to get a password reset link</string>
+    <string name="password_reset">Password Reset</string>
+    <string name="reset_my_password">Reset My Password</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
