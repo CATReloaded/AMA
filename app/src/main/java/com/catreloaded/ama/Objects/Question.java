@@ -9,8 +9,8 @@ public class Question {
     private String mReplier;
     private boolean mHasAnswer;
 
-    public Question(String mQuistion, String mAnswer, String mAsker, String mDate, String mReplier, boolean mHasAnswer) {
-        this.mQuestion = mQuistion;
+    public Question(String mQuestion, String mAnswer, String mAsker, String mDate, String mReplier, boolean mHasAnswer) {
+        this.mQuestion = mQuestion;
         this.mAnswer = mAnswer;
         this.mAsker = mAsker;
         this.mDate = mDate;

@@ -29,6 +29,7 @@ public class FollowersFragment extends Fragment {
 
     @BindView(R.id.rv_followers)
     RecyclerView rvFollowers;
+    //TODO replace this testData String with a network json response
     String testData = "{\n" +
             "  \"followers\": [\n" +
             "    {\n" +
