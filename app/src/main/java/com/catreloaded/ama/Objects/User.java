@@ -22,6 +22,10 @@ public class User {
         this.mUserName = mUserName;
     }
 
+    User() {
+
+    }
+
     public int getNFollowers() {
         return mNFollowers;
     }

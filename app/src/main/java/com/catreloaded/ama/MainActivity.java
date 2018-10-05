@@ -18,12 +18,18 @@ import android.view.View;
 import android.view.Window;
 
 import com.catreloaded.ama.Fragments.AnsweredFragment;
+import com.catreloaded.ama.Fragments.FollowersFragment;
 import com.catreloaded.ama.Fragments.UnAnsweredFragment;
 import com.catreloaded.ama.Loaders.TestLoader;
 import com.catreloaded.ama.Networking.RequestManager;
+import com.catreloaded.ama.Objects.Follower;
+import com.catreloaded.ama.Objects.User;
 import com.catreloaded.ama.Utils.UrlBuilder;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         getSupportLoaderManager().initLoader(0,null,this);
 
-        Log.d("URL",UrlBuilder.buildUsersUrl(5));
+        //Log.d("URL",UrlBuilder.buildUsersUrl(5));
+
     }
 
     @NonNull
@@ -87,6 +94,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     return new UnAnsweredFragment();
                 case 1:
                     return new AnsweredFragment();
+                case 2:
+                    return new FollowersFragment();
                     default:
                         return null;
             }
@@ -94,7 +103,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         @Override
         public int getCount() {
-            return 2;
+            return 3;
         }
     }
 }
