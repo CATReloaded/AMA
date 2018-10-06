@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.catreloaded.ama.Interfaces.UserClickListener;
 import com.catreloaded.ama.Objects.User;
 import com.catreloaded.ama.R;
 
@@ -18,9 +19,11 @@ import butterknife.ButterKnife;
 public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHolder>{
 
     private List<User> mData;
+    private final UserClickListener mUserClickListener;
 
-    public UsersAdapter(List<User> data){
+    public UsersAdapter(List<User> data,UserClickListener userClickListener){
         mData = data;
+        mUserClickListener = userClickListener;
     }
 
     @NonNull
@@ -47,6 +50,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
         UserViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mUserClickListener.onUserClickedListener(mData.get(getAdapterPosition()));
+                }
+            });
         }
     }
 }

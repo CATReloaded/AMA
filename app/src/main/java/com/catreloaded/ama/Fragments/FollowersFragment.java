@@ -1,5 +1,6 @@
 package com.catreloaded.ama.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,8 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.catreloaded.ama.Adapters.UsersAdapter;
+import com.catreloaded.ama.Interfaces.UserClickListener;
 import com.catreloaded.ama.Objects.Follower;
 import com.catreloaded.ama.Objects.User;
+import com.catreloaded.ama.ProfileActivity;
 import com.catreloaded.ama.R;
 import com.catreloaded.ama.Utils.JSONParser;
 
@@ -25,7 +28,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class FollowersFragment extends Fragment {
+public class FollowersFragment extends Fragment implements UserClickListener {
+
+    private static final String USER_KEY = "user_key";
 
     @BindView(R.id.rv_followers)
     RecyclerView rvFollowers;
@@ -76,12 +81,19 @@ public class FollowersFragment extends Fragment {
             List<User> usersData = new ArrayList<>();
             Log.d("Data Size",followersData.size() +"");
             usersData.addAll(followersData);
-            UsersAdapter adapter = new UsersAdapter(usersData);
+            UsersAdapter adapter = new UsersAdapter(usersData,this);
             rvFollowers.setLayoutManager(new LinearLayoutManager(getContext()));
             rvFollowers.setAdapter(adapter);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return view;
+    }
+
+    @Override
+    public void onUserClickedListener(User clickedUser) {
+        Intent profileIntent = new Intent(getActivity(), ProfileActivity.class);
+        profileIntent.putExtra(USER_KEY,clickedUser);
+        startActivity(profileIntent);
     }
 }
