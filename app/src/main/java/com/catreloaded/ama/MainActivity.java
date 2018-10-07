@@ -19,6 +19,7 @@ import com.catreloaded.ama.Fragments.FollowersFragment;
 import com.catreloaded.ama.Fragments.FollowingFragment;
 import com.catreloaded.ama.Fragments.UnansweredFragment;
 import com.catreloaded.ama.Loaders.TestLoader;
+import com.catreloaded.ama.Utils.UrlBuilder;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +47,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         getSupportLoaderManager().initLoader(0,null,this);
 
-        //Log.d("URL",UrlBuilder.buildUsersUrl(5));
+        Log.d("URL BUILDER", UrlBuilder.buildUsersUrl());
+        Log.d("URL BUILDER", UrlBuilder.buildSpecificUserUrl("stevensonwalter"));
+        Log.d("URL BUILDER", UrlBuilder.buildFollowersUrl("stevensonwalter"));
+        Log.d("URL BUILDER", UrlBuilder.buildFollowingsUrl("stevensonwalter"));
+        Log.d("URL BUILDER", UrlBuilder.buildAnsweredQuestionsUrl("stevensonwalter"));
+        Log.d("URL BUILDER", UrlBuilder.buildUnansweredQuestionsUrl("stevensonwalter"));
 
     }
 
@@ -60,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-        Log.d("DATA",data);
+
     }
 
     @Override
