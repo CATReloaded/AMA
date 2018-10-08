@@ -24,7 +24,7 @@ public class UrlBuilder {
 
     private static final String P_QUERY = "p";
     private static final String N_QUERY = "n";
-    private static final int N = 3;
+    private static final int N = 1000;
 
 
 
