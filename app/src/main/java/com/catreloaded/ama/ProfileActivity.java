@@ -46,7 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void fillData(){
-        Glide.with(this).load(recievedUser.getAvatarLink()).apply(RequestOptions.circleCropTransform()).into(ivAvatar);
+        Glide.with(this).load(recievedUser.getAvatarLink()).apply(RequestOptions.circleCropTransform().error(R.drawable.user)).into(ivAvatar);
         tvUsername.setText(recievedUser.getUserName());
         tvFollowersNumber.setText(recievedUser.getNFollowers() + "");
         tvFollowingNumber.setText(recievedUser.getNFollowing() + "");

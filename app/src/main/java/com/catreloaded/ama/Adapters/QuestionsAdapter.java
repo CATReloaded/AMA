@@ -33,8 +33,12 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
 
     @Override
     public void onBindViewHolder(@NonNull QuestionViewHolder holder, int position) {
-        holder.tvQuestion.setText(mData.get(position).getQuestion());
-        holder.tvAnswer.setText(mData.get(position).getAnswer());
+        holder.tvQuestion.setText(mData.get(position).getQuestion() + " ?");
+        if(mData.get(position).getAnswer().equals("NULL")){
+            holder.tvAnswer.setVisibility(View.GONE);
+        }else{
+            holder.tvAnswer.setText(mData.get(position).getAnswer());
+        }
     }
 
     @Override

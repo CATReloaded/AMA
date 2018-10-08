@@ -10,11 +10,13 @@ import com.catreloaded.ama.Networking.RequestManager;
 
 import java.io.IOException;
 
-public class TestLoader extends AsyncTaskLoader<String> {
+public class NetworkJsonResponseLoader extends AsyncTaskLoader<String> {
 
+    private String mUrl;
 
-    public TestLoader(@NonNull Context context) {
+    public NetworkJsonResponseLoader(@NonNull Context context, String url) {
         super(context);
+        mUrl = url;
     }
 
 
@@ -22,7 +24,7 @@ public class TestLoader extends AsyncTaskLoader<String> {
     @Override
     public String loadInBackground() {
         try {
-            return RequestManager.request("https://www.getpostman.com/collections/bef779071b6208fcadd9");
+            return RequestManager.request(mUrl);
         } catch (IOException e) {
             e.printStackTrace();
         }

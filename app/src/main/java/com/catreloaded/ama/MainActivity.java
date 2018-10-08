@@ -18,7 +18,7 @@ import com.catreloaded.ama.Fragments.AnsweredFragment;
 import com.catreloaded.ama.Fragments.FollowersFragment;
 import com.catreloaded.ama.Fragments.FollowingFragment;
 import com.catreloaded.ama.Fragments.UnansweredFragment;
-import com.catreloaded.ama.Loaders.TestLoader;
+import com.catreloaded.ama.Loaders.NetworkJsonResponseLoader;
 import com.catreloaded.ama.Utils.UrlBuilder;
 
 import butterknife.BindView;
@@ -42,8 +42,13 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         vp.setAdapter(new CustomPagerAdapter(getSupportFragmentManager()));
 
         mainTabLayout.setupWithViewPager(vp);
+        mainTabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        mainTabLayout.getTabAt(0).setCustomView(R.layout.custom_tab_test);
+
+        mainTabLayout.getTabAt(0).setText(R.string.unanswered);
+        mainTabLayout.getTabAt(1).setText(R.string.answered);
+        mainTabLayout.getTabAt(2).setText(R.string.followers);
+        mainTabLayout.getTabAt(3).setText(R.string.following);
 
         getSupportLoaderManager().initLoader(0,null,this);
 
@@ -59,9 +64,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        TestLoader testLoader = new TestLoader(this);
-        testLoader.forceLoad();
-        return testLoader;
+        NetworkJsonResponseLoader networkJsonResponseLoader = new NetworkJsonResponseLoader(this,UrlBuilder.buildUsersUrl());
+        networkJsonResponseLoader.forceLoad();
+        return networkJsonResponseLoader;
     }
 
     @Override

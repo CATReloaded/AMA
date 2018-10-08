@@ -1,20 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/dummy"
+                    android:orientation="vertical"
+                    android:focusableInTouchMode="true"
+                    android:focusable="true"
+                    android:layout_width="0px"
+                    android:layout_height="0px"/>
+                <EditText
+                    android:id="@+id/et_search_toolbar"
+                    android:hint="@string/search"
+                    android:textColor="@color/White"
+                    android:textColorHint="@color/White_Transparent"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:background="@drawable/rounded_background"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="35dp" />
+                <ImageView
+                    android:id="@+id/iv_search_toolbar"
+                    android:src="@drawable/search"
+                    android:layout_marginRight="16dp"
+                    android:layout_weight="0.1"
+                    android:layout_width="0dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerInside"
+                    android:layout_height="match_parent" />
+            </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vp"
+        android:layout_marginTop="56dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <android.support.design.widget.TabLayout
             android:id="@+id/main_tab_layout"
+            app:tabSelectedTextColor="@color/White"
+            app:tabTextAppearance="@style/tab_text_style"
+            app:tabTextColor="@color/White_Transparent"
             android:background="@color/LightBlue_700"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
     </android.support.v4.view.ViewPager>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

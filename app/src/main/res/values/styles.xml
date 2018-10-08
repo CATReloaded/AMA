@@ -1,11 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/LightBlue_700</item>
         <item name="colorPrimaryDark">@color/LightBlue_900</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">@color/White</item>
     </style>
 
     <style name="ColoredButton" parent="Widget.AppCompat.Button.Colored">
@@ -21,6 +21,11 @@
     <style name="TitleTextView">
         <item name="android:textSize">24sp</item>
         <item name="android:textColor">@color/Black</item>
+    </style>
+
+    <style name="tab_text_style" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
     </style>
 
 </resources>

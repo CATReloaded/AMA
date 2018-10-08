@@ -1,10 +1,15 @@
 package com.catreloaded.ama.Networking;
 
+import android.util.Log;
+
 import java.io.IOException;
 
+import okhttp3.Authenticator;
+import okhttp3.Credentials;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.Route;
 
 /**
  * This class is used to request data from the internet
@@ -12,7 +17,7 @@ import okhttp3.Response;
 public class RequestManager {
 
     private RequestManager(){
-
+        //The default constructor is made private to prevent creating objects of this class
     }
 
     /**
@@ -23,7 +28,12 @@ public class RequestManager {
      */
     public static String request(String url) throws IOException {
         OkHttpClient okHttpClient = new OkHttpClient();
-        Request request = new Request.Builder().url(url).build();
+        //TODO replace these values with username and password cached in the shared preferences
+        String credentials = Credentials.basic("","");
+        Request request =
+                new Request.Builder()
+                        .header("Authorization",credentials)
+                        .url(url).build();
         Response response = okHttpClient.newCall(request).execute();
         return response.body().string();
     }
