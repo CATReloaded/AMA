@@ -26,4 +26,6 @@
     <string name="search">Search…</string>
     <string name="answered">Answered</string>
     <string name="unanswered">Unanswered</string>
+    <string name="empty_search_bar_message">Please enter the name of the user in the search bar</string>
+    <string name="user_not_found">User Not Found</string>
 </resources>

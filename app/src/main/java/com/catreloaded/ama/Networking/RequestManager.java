@@ -35,7 +35,11 @@ public class RequestManager {
                         .header("Authorization",credentials)
                         .url(url).build();
         Response response = okHttpClient.newCall(request).execute();
-        return response.body().string();
+        if(response.code() == 404){
+            return "NULL";
+        }else{
+            return response.body().string();
+        }
     }
 
 }

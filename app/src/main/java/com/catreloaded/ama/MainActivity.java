@@ -1,5 +1,6 @@
 package com.catreloaded.ama;
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -13,23 +14,40 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Window;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.catreloaded.ama.Fragments.AnsweredFragment;
 import com.catreloaded.ama.Fragments.FollowersFragment;
 import com.catreloaded.ama.Fragments.FollowingFragment;
 import com.catreloaded.ama.Fragments.UnansweredFragment;
 import com.catreloaded.ama.Loaders.NetworkJsonResponseLoader;
+import com.catreloaded.ama.Objects.User;
+import com.catreloaded.ama.Utils.JSONParser;
 import com.catreloaded.ama.Utils.UrlBuilder;
+
+import org.json.JSONException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>{
+
+    private static final String USERNAME_KEY = "username";
+    private static final String USER_KEY = "user_key";
+
+    private static boolean isFirstLoading = true;
 
     @BindView(R.id.vp)
     ViewPager vp;
     @BindView(R.id.main_tab_layout)
     TabLayout mainTabLayout;
+    @BindView(R.id.iv_search_toolbar)
+    ImageView ivSearch;
+    @BindView(R.id.et_search_toolbar)
+    EditText etSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mainTabLayout.getTabAt(2).setText(R.string.followers);
         mainTabLayout.getTabAt(3).setText(R.string.following);
 
-        getSupportLoaderManager().initLoader(0,null,this);
 
         Log.d("URL BUILDER", UrlBuilder.buildUsersUrl());
         Log.d("URL BUILDER", UrlBuilder.buildSpecificUserUrl("stevensonwalter"));
@@ -61,17 +78,47 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
+    @OnClick(R.id.iv_search_toolbar)
+    void onSearchClicked(){
+        String username = etSearch.getText().toString().trim();
+        if(username.isEmpty()){
+            Toast.makeText(getApplicationContext(), R.string.empty_search_bar_message,Toast.LENGTH_LONG).show();
+        }else{
+            Bundle bundle = new Bundle();
+            bundle.putString(USERNAME_KEY,username);
+            if(isFirstLoading){
+                getSupportLoaderManager().initLoader(0,bundle,this);
+                isFirstLoading = false;
+            }else{
+                getSupportLoaderManager().restartLoader(0,bundle,this);
+            }
+        }
+    }
+
     @NonNull
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
-        NetworkJsonResponseLoader networkJsonResponseLoader = new NetworkJsonResponseLoader(this,UrlBuilder.buildUsersUrl());
+        Log.d("BUNDLE",args.getString(USERNAME_KEY));
+        Log.d("URL",UrlBuilder.buildSpecificUserUrl(args.getString(USERNAME_KEY)));
+        NetworkJsonResponseLoader networkJsonResponseLoader = new NetworkJsonResponseLoader(this,UrlBuilder.buildSpecificUserUrl(args.getString(USERNAME_KEY)));
         networkJsonResponseLoader.forceLoad();
         return networkJsonResponseLoader;
     }
 
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
-
+        if(data.equals("NULL")){
+            Toast.makeText(getBaseContext(), R.string.user_not_found,Toast.LENGTH_SHORT).show();
+        }else{
+            try {
+                User user = JSONParser.parseOneUser(data);
+                Intent profileIntent = new Intent(this, ProfileActivity.class);
+                profileIntent.putExtra(USER_KEY,user);
+                startActivity(profileIntent);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

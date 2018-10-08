@@ -125,4 +125,28 @@ public class JSONParser {
         }
         return result;
     }
+
+    /**
+     * This method is used to parse the data of one user
+     * @param jsonString data formatted as json
+     * @return User Object
+     * @throws JSONException if the passed json is incorrect
+     */
+    public static User parseOneUser(String jsonString) throws JSONException {
+        JSONObject rootObject = new JSONObject(jsonString);
+
+        int nFollowers,nFollowing,id;
+        String aboutMe,avatarLink,followersLink,followingLink,username;
+
+        nFollowers = rootObject.getInt(N_FOLLOWERS_KEY);
+        nFollowing = rootObject.getInt(N_FOLLOWING_KEY);
+        id = rootObject.getInt(ID_KEY);
+        aboutMe = rootObject.getString(ABOUT_ME_KEY);
+        avatarLink = rootObject.getString(AVATAR_URI_KEY);
+        followersLink = rootObject.getString(FOLLOWERS_KEY);
+        followingLink = rootObject.getString(FOLLOWING_KEY);
+        username = rootObject.getString(USERNAME_KEY);
+
+        return  new User(nFollowers,nFollowing,id,aboutMe,avatarLink,followersLink,followingLink,username);
+    }
 }
