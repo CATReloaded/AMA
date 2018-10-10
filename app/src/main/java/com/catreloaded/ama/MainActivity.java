@@ -1,8 +1,11 @@
 package com.catreloaded.ama;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -25,6 +28,7 @@ import com.catreloaded.ama.Fragments.UnansweredFragment;
 import com.catreloaded.ama.Loaders.NetworkJsonResponseLoader;
 import com.catreloaded.ama.Objects.User;
 import com.catreloaded.ama.Utils.JSONParser;
+import com.catreloaded.ama.Utils.PreferencesConstants;
 import com.catreloaded.ama.Utils.UrlBuilder;
 
 import org.json.JSONException;
@@ -39,6 +43,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String USER_KEY = "user_key";
 
     private static boolean isFirstLoading = true;
+
+    private static CoordinatorLayout coordinatorLayout;
+
 
     @BindView(R.id.vp)
     ViewPager vp;
@@ -57,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ButterKnife.bind(this);
 
+        coordinatorLayout = findViewById(R.id.coordinator_layout);
+
         vp.setAdapter(new CustomPagerAdapter(getSupportFragmentManager()));
 
         mainTabLayout.setupWithViewPager(vp);
@@ -68,13 +77,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mainTabLayout.getTabAt(2).setText(R.string.followers);
         mainTabLayout.getTabAt(3).setText(R.string.following);
 
-
-        Log.d("URL BUILDER", UrlBuilder.buildUsersUrl());
-        Log.d("URL BUILDER", UrlBuilder.buildSpecificUserUrl("stevensonwalter"));
-        Log.d("URL BUILDER", UrlBuilder.buildFollowersUrl("stevensonwalter"));
-        Log.d("URL BUILDER", UrlBuilder.buildFollowingsUrl("stevensonwalter"));
-        Log.d("URL BUILDER", UrlBuilder.buildAnsweredQuestionsUrl("stevensonwalter"));
-        Log.d("URL BUILDER", UrlBuilder.buildUnansweredQuestionsUrl("stevensonwalter"));
 
     }
 
@@ -100,7 +102,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
         Log.d("BUNDLE",args.getString(USERNAME_KEY));
         Log.d("URL",UrlBuilder.buildSpecificUserUrl(args.getString(USERNAME_KEY)));
-        NetworkJsonResponseLoader networkJsonResponseLoader = new NetworkJsonResponseLoader(this,UrlBuilder.buildSpecificUserUrl(args.getString(USERNAME_KEY)));
+        NetworkJsonResponseLoader networkJsonResponseLoader =
+                new NetworkJsonResponseLoader(this,
+                        UrlBuilder.buildSpecificUserUrl(args.getString(USERNAME_KEY))
+                        ,NetworkJsonResponseLoader.GET);
         networkJsonResponseLoader.forceLoad();
         return networkJsonResponseLoader;
     }
@@ -154,5 +159,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         public int getCount() {
             return 4;
         }
+    }
+
+    public static void showSnackbar(String text){
+        Snackbar snackbar = Snackbar
+                .make(coordinatorLayout, text, Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 }

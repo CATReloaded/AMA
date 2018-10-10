@@ -7,9 +7,12 @@
     <color name="White_Transparent">#62ffffff</color>
     <color name="White">#ffffff</color>
     <color name="Gray_200">#EEEEEE</color>
+    <color name="Gray_700">#757575</color>
     <color name="Black">#000000</color>
 
     <color name="LightBlue_700">#0288D1</color>
     <color name="LightBlue_900">#01579B</color>
+
+    <color name="Red_900">#B71C1C</color>
 
 </resources>

@@ -1,6 +1,9 @@
 package com.catreloaded.ama.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.catreloaded.ama.Adapters.UsersAdapter;
 import com.catreloaded.ama.Interfaces.UserClickListener;
@@ -23,6 +27,7 @@ import com.catreloaded.ama.Objects.User;
 import com.catreloaded.ama.ProfileActivity;
 import com.catreloaded.ama.R;
 import com.catreloaded.ama.Utils.JSONParser;
+import com.catreloaded.ama.Utils.PreferencesConstants;
 import com.catreloaded.ama.Utils.UrlBuilder;
 
 import org.json.JSONException;
@@ -39,14 +44,17 @@ public class FollowingFragment extends Fragment implements UserClickListener, Lo
 
     @BindView(R.id.rv_following)
     RecyclerView rvFollowing;
-    //TODO fix UI
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_following,container,false);
         ButterKnife.bind(this,view);
-        getLoaderManager().initLoader(0,null,this);
+        if(isOnline()){
+            getLoaderManager().initLoader(0,null,this);
+        }else{
+            Toast.makeText(getContext(),R.string.no_internet_connection,Toast.LENGTH_SHORT).show();
+        }
         return view;
     }
 
@@ -62,7 +70,10 @@ public class FollowingFragment extends Fragment implements UserClickListener, Lo
     @Override
     public Loader<String> onCreateLoader(int id, @Nullable Bundle args) {
         NetworkJsonResponseLoader networkJsonResponseLoader =
-                new NetworkJsonResponseLoader(getContext(), UrlBuilder.buildFollowingsUrl("stevensonwalter"));//TODO replace with the logged user
+                new NetworkJsonResponseLoader(
+                        getContext(),
+                        UrlBuilder.buildFollowingsUrl(PreferencesConstants.getUsername(getContext())),
+                        NetworkJsonResponseLoader.GET);
         networkJsonResponseLoader.forceLoad();
         return networkJsonResponseLoader;
     }
@@ -70,7 +81,6 @@ public class FollowingFragment extends Fragment implements UserClickListener, Lo
     @Override
     public void onLoadFinished(@NonNull Loader<String> loader, String data) {
         try {
-            //TODO make the app receive more than 3 items
             List<Following> followingData = JSONParser.<Following>parseUsers(data,new Following());
             List<User> usersData = new ArrayList<>();
             usersData.addAll(followingData);
@@ -85,5 +95,15 @@ public class FollowingFragment extends Fragment implements UserClickListener, Lo
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
+    }
+
+    /**
+     * This method checks the internet state of the device
+     * @return true if there is an active connection
+     */
+    private boolean isOnline(){
+        ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

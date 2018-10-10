@@ -8,6 +8,13 @@
         <item name="colorAccent">@color/White</item>
     </style>
 
+    <style name="SignInTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/LightBlue_700</item>
+        <item name="colorPrimaryDark">@color/LightBlue_900</item>
+        <item name="colorAccent">@color/Gray_700</item>
+    </style>
+
     <style name="ColoredButton" parent="Widget.AppCompat.Button.Colored">
         <item name="colorButtonNormal">@color/LightBlue_700</item>
         <item name="android:textColor">@color/White</item>

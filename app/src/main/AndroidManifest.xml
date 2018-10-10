@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.catreloaded.ama">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -12,17 +13,21 @@
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".LoginActivity" android:screenOrientation="portrait" android:theme="@style/SignInTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".SignUpActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ResetPasswordActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ResetMyPasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ProfileActivity" android:screenOrientation="portrait"/>
+        <receiver android:name=".Utils.NetworkConnectionReceiver">
+            <intent-filter >
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

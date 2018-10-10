@@ -7,8 +7,11 @@ import android.net.Uri;
  */
 public class UrlBuilder {
 
+    private static final String SIGN_IN_URL = "http://ama-catreloaded.herokuapp.com/api/signin";
+    private static final String SIGN_UP_URL = "http://ama-catreloaded.herokuapp.com/auth/signup";
+
     private UrlBuilder(){
-        //URL example http://ama.localdomain:5000/api/users/deannafrank/following?p=1
+
     }
 
     private static Uri.Builder mUriBuilder;
@@ -91,5 +94,13 @@ public class UrlBuilder {
      */
     public static String buildUnansweredQuestionsUrl(String username){
         return buildSpecificUserUrl(username) + "/" + UNANSWERED_QUESTIONS_PATH + "?n=" + N;
+    }
+
+    public static String buildSignInUrl(){
+        return SIGN_IN_URL;
+    }
+
+    public static String buildSignUpUrl(){
+        return SIGN_UP_URL;
     }
 }
