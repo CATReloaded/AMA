@@ -12,22 +12,34 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".LoginActivity" android:screenOrientation="portrait" android:theme="@style/SignInTheme">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SignInTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProfileActivity" android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait" />
+
         <receiver android:name=".Utils.NetworkConnectionReceiver">
-            <intent-filter >
+            <intent-filter>
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".AskActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/SignInTheme" />
+        <activity android:name=".AnswerActivity" android:screenOrientation="portrait" android:theme="@style/SignInTheme"/>
     </application>
 
 </manifest>

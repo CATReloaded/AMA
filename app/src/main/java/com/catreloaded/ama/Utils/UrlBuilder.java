@@ -9,6 +9,8 @@ public class UrlBuilder {
 
     private static final String SIGN_IN_URL = "http://ama-catreloaded.herokuapp.com/api/signin";
     private static final String SIGN_UP_URL = "http://ama-catreloaded.herokuapp.com/auth/signup";
+    private static final String ASK_URL = "http://ama-catreloaded.herokuapp.com/api/ask";
+    private static final String ANSWER_URL = "https://ama-catreloaded.herokuapp.com/api/answer";
 
     private UrlBuilder(){
 
@@ -102,5 +104,13 @@ public class UrlBuilder {
 
     public static String buildSignUpUrl(){
         return SIGN_UP_URL;
+    }
+
+    public static String buildAskUrl(){
+        return ASK_URL;
+    }
+
+    public static String buildAnswerUrl(){
+        return ANSWER_URL;
     }
 }

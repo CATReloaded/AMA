@@ -33,4 +33,10 @@
     <string name="incorrect_user_or_pass_message">Incorrect username or password</string>
     <string name="enter_user_and_pass_message">Please enter the username and the password</string>
     <string name="logged_in_message">Logged In Successfully</string>
+    <string name="ask_me_anything">Ask Me Anything …</string>
+    <string name="something_went_wrong">Something went wrong</string>
+    <string name="question_sent">Question sent successfully</string>
+    <string name="answer">Answer</string>
+    <string name="please_enter_your_answer">Please Enter Your Answer</string>
+    <string name="answer_sent">Answer Sent Successfully</string>
 </resources>

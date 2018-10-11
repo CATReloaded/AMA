@@ -1,5 +1,6 @@
 package com.catreloaded.ama;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Button;
@@ -12,10 +13,12 @@ import com.catreloaded.ama.Objects.User;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ProfileActivity extends AppCompatActivity {
 
     private static final String USER_KEY = "user_key";
+    private static final String USERNAME_KEY = "username_key";
 
     @BindView(R.id.iv_avatar_profile_act)
     ImageView ivAvatar;
@@ -51,5 +54,12 @@ public class ProfileActivity extends AppCompatActivity {
         tvFollowersNumber.setText(recievedUser.getNFollowers() + "");
         tvFollowingNumber.setText(recievedUser.getNFollowing() + "");
         tvAboutMe.setText(recievedUser.getAboutMe());
+    }
+
+    @OnClick(R.id.btn_ask_profile_act)
+    void onAskButtonClicked(){
+        Intent askActivityIntent = new Intent(this,AskActivity.class);
+        askActivityIntent.putExtra(USERNAME_KEY,recievedUser.getUserName());
+        startActivity(askActivityIntent);
     }
 }

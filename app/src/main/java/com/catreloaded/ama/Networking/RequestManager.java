@@ -75,4 +75,42 @@ public class RequestManager {
         }
     }
 
+    public static String requestASk(Context context,String url,String replier,String question) throws IOException {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        String credentials = Credentials.basic(PreferencesConstants.getUsername(context),PreferencesConstants.getPassword(context));
+        MediaType jsonType = MediaType.parse("application/json; charset=utf-8");
+        String body = "{\n" +
+                "\t\"asker\": \""+PreferencesConstants.getUsername(context)+"\",\n" +
+                "\t\"replier\": \""+replier+"\",\n" +
+                "\t\"question_content\": \""+question+"\"\n" +
+                "}";
+        RequestBody requestBody = RequestBody.create(jsonType,body);
+        Request request =
+                new Request.Builder()
+                        .header("Authorization",credentials)
+                        .post(requestBody)
+                        .url(url)
+                        .build();
+        Response response = okHttpClient.newCall(request).execute();
+        return response.body().string();
+    }
+
+    public static String requestAnswer(Context context,String url,int questionId,String answer) throws IOException {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        String credentials = Credentials.basic(PreferencesConstants.getUsername(context),PreferencesConstants.getPassword(context));
+        MediaType jsonType = MediaType.parse("application/json; charset=utf-8");
+        String body = "{\n" +
+                "\t\"answer\": \""+answer+"\",\n" +
+                "\t\"question_id\": "+questionId+"\n" +
+                "}";
+        RequestBody requestBody = RequestBody.create(jsonType,body);
+        Request request = new Request.Builder()
+                .url(url)
+                .header("Authorization",credentials)
+                .post(requestBody)
+                .build();
+        Response response = okHttpClient.newCall(request).execute();
+        return response.body().string();
+    }
+
 }

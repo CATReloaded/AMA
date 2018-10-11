@@ -112,6 +112,7 @@ public class JSONParser {
         JSONObject tempObject;
         String answer,asker,replier,question,date;
         boolean hasAnswer;
+        int id;
         for(int i = 0 ; i < n ; i++){
             tempObject = questionsArray.getJSONObject(i);
             answer = tempObject.getString(ANSWER_KEY);
@@ -120,7 +121,8 @@ public class JSONParser {
             question = tempObject.getString(QUESTION_KEY);
             date = tempObject.getString(DATE_KEY);
             hasAnswer = tempObject.getBoolean(HAS_ANSWER_KEY);
-            tempQuestion = (T) new Question(question,answer,asker,date,replier,hasAnswer);
+            id = tempObject.getInt(ID_KEY);
+            tempQuestion = (T) new Question(question,answer,asker,date,replier,hasAnswer,id);
             result.add(tempQuestion);
         }
         return result;

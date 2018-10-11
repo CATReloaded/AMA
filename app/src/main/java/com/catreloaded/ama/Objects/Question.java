@@ -8,18 +8,20 @@ public class Question {
     private String mDate;
     private String mReplier;
     private boolean mHasAnswer;
+    private int mId;
 
     Question(){
 
     }
 
-    public Question(String mQuestion, String mAnswer, String mAsker, String mDate, String mReplier, boolean mHasAnswer) {
+    public Question(String mQuestion, String mAnswer, String mAsker, String mDate, String mReplier, boolean mHasAnswer,int mId) {
         this.mQuestion = mQuestion;
         this.mAnswer = mAnswer;
         this.mAsker = mAsker;
         this.mDate = mDate;
         this.mReplier = mReplier;
         this.mHasAnswer = mHasAnswer;
+        this.mId = mId;
     }
 
     public String getQuestion() {
@@ -42,7 +44,12 @@ public class Question {
         return mReplier;
     }
 
-    public boolean isHasAnswer() {
+    public boolean isAnswered() {
         return mHasAnswer;
     }
+
+    public int getmId() {
+        return mId;
+    }
+
 }

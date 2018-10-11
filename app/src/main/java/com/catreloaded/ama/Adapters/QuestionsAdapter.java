@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.catreloaded.ama.Interfaces.QuestionClickListener;
 import com.catreloaded.ama.Objects.Question;
 import com.catreloaded.ama.R;
 
@@ -18,9 +19,15 @@ import butterknife.ButterKnife;
 public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.QuestionViewHolder>{
 
     private List<Question> mData;
+    private QuestionClickListener mQuestionClickListener;
 
     public QuestionsAdapter(List<Question> data){
         mData = data;
+    }
+
+    public QuestionsAdapter(List<Question> data,QuestionClickListener questionClickListener){
+        mData = data;
+        mQuestionClickListener = questionClickListener;
     }
 
     @NonNull
@@ -57,6 +64,14 @@ public class QuestionsAdapter extends RecyclerView.Adapter<QuestionsAdapter.Ques
         QuestionViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(!mData.get(getAdapterPosition()).isAnswered()){
+                        mQuestionClickListener.onQuestionClicked(mData.get(getAdapterPosition()).getmId(),mData.get(getAdapterPosition()).getQuestion());
+                    }
+                }
+            });
         }
     }
 }

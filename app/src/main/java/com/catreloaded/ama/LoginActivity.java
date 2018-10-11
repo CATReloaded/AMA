@@ -1,8 +1,12 @@
 package com.catreloaded.ama;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -63,14 +67,18 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
 
     @OnClick(R.id.btn_submit_login)
     void onSubmitButtonClicked(){
-        if(etUsername.getText().toString().trim().isEmpty() || etPassword.getText().toString().trim().isEmpty()){
-            Toast.makeText(getBaseContext(), R.string.enter_user_and_pass_message,Toast.LENGTH_SHORT).show();
-        }else{
-            if(firstClick){
-                getSupportLoaderManager().initLoader(0,null,this);
+        if(isOnline()){
+            if(etUsername.getText().toString().trim().isEmpty() || etPassword.getText().toString().trim().isEmpty()){
+                Toast.makeText(getBaseContext(), R.string.enter_user_and_pass_message,Toast.LENGTH_SHORT).show();
             }else{
-                getSupportLoaderManager().restartLoader(0,null,this);
+                if(firstClick){
+                    getSupportLoaderManager().initLoader(0,null,this);
+                }else{
+                    getSupportLoaderManager().restartLoader(0,null,this);
+                }
             }
+        }else{
+            Toast.makeText(getBaseContext(),R.string.no_internet_connection,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -102,6 +110,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
         try {
             JSONObject rootObject = new JSONObject(data);
             int statusCode = rootObject.getInt(STATUS_KEY);
+
             if(statusCode == STATUS_OK){
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -111,8 +120,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
                 editor.putString(PreferencesConstants.USERNAME,etUsername.getText().toString());
                 editor.putString(PreferencesConstants.PASSWORD,etPassword.getText().toString());
                 editor.apply();
-
-                startActivity(new Intent(this,MainActivity.class));
+                startActivity(new Intent(LoginActivity.this,MainActivity.class));
                 finish();
                 Toast.makeText(getBaseContext(), R.string.logged_in_message ,Toast.LENGTH_SHORT).show();
             }else{
@@ -127,5 +135,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderManager.Lo
     @Override
     public void onLoaderReset(@NonNull Loader<String> loader) {
 
+    }
+
+    /**
+     * This method checks the internet state of the device
+     * @return true if there is an active connection
+     */
+    private boolean isOnline(){
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

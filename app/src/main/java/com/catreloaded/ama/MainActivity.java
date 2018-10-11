@@ -1,7 +1,10 @@
 package com.catreloaded.ama;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CoordinatorLayout;
@@ -82,18 +85,22 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     @OnClick(R.id.iv_search_toolbar)
     void onSearchClicked(){
-        String username = etSearch.getText().toString().trim();
-        if(username.isEmpty()){
-            Toast.makeText(getApplicationContext(), R.string.empty_search_bar_message,Toast.LENGTH_LONG).show();
-        }else{
-            Bundle bundle = new Bundle();
-            bundle.putString(USERNAME_KEY,username);
-            if(isFirstLoading){
-                getSupportLoaderManager().initLoader(0,bundle,this);
-                isFirstLoading = false;
+        if(isOnline()){
+            String username = etSearch.getText().toString().trim();
+            if(username.isEmpty()){
+                Toast.makeText(getApplicationContext(), R.string.empty_search_bar_message,Toast.LENGTH_LONG).show();
             }else{
-                getSupportLoaderManager().restartLoader(0,bundle,this);
+                Bundle bundle = new Bundle();
+                bundle.putString(USERNAME_KEY,username);
+                if(isFirstLoading){
+                    getSupportLoaderManager().initLoader(0,bundle,this);
+                    isFirstLoading = false;
+                }else{
+                    getSupportLoaderManager().restartLoader(0,bundle,this);
+                }
             }
+        }else{
+            Toast.makeText(getBaseContext(),R.string.no_internet_connection,Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -165,5 +172,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Snackbar snackbar = Snackbar
                 .make(coordinatorLayout, text, Snackbar.LENGTH_LONG);
         snackbar.show();
+    }
+
+    /**
+     * This method checks the internet state of the device
+     * @return true if there is an active connection
+     */
+    private boolean isOnline(){
+        ConnectivityManager cm = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
 }

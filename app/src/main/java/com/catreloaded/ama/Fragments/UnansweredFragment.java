@@ -1,6 +1,7 @@
 package com.catreloaded.ama.Fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -17,8 +18,9 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.catreloaded.ama.Adapters.QuestionsAdapter;
+import com.catreloaded.ama.AnswerActivity;
+import com.catreloaded.ama.Interfaces.QuestionClickListener;
 import com.catreloaded.ama.Loaders.NetworkJsonResponseLoader;
-import com.catreloaded.ama.Objects.AnsweredQuestion;
 import com.catreloaded.ama.Objects.Question;
 import com.catreloaded.ama.Objects.UnAnsweredQuestion;
 import com.catreloaded.ama.R;
@@ -35,10 +37,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class UnansweredFragment extends Fragment implements LoaderManager.LoaderCallbacks<String> {
+public class UnansweredFragment extends Fragment implements LoaderManager.LoaderCallbacks<String>,QuestionClickListener {
 
     @BindView(R.id.rv_unanswered_questions)
     RecyclerView rvUnansweredQuestions;
+
+    private static final String ID_KEY = "id";
+    private static final String QUESTION_KEY = "question";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -71,7 +76,7 @@ public class UnansweredFragment extends Fragment implements LoaderManager.Loader
             List<UnAnsweredQuestion> unansweredQuestionsData = JSONParser.<UnAnsweredQuestion>parseQuestion(data,new UnAnsweredQuestion());
             List<Question> questions = new ArrayList<>();
             questions.addAll(unansweredQuestionsData);
-            QuestionsAdapter adapter = new QuestionsAdapter(questions);
+            QuestionsAdapter adapter = new QuestionsAdapter(questions,this);
             rvUnansweredQuestions.setLayoutManager(new LinearLayoutManager(getContext()));
             rvUnansweredQuestions.setAdapter(adapter);
         } catch (JSONException e) {
@@ -92,5 +97,13 @@ public class UnansweredFragment extends Fragment implements LoaderManager.Loader
         ConnectivityManager cm = (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
+    }
+
+    @Override
+    public void onQuestionClicked(int questionId,String question) {
+        Intent answerActivityIntent = new Intent(getActivity(), AnswerActivity.class);
+        answerActivityIntent.putExtra(ID_KEY,questionId);
+        answerActivityIntent.putExtra(QUESTION_KEY,question);
+        startActivity(answerActivityIntent);
     }
 }
